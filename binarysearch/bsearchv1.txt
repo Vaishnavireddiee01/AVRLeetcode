@@ -1,0 +1,60 @@
+def binarySearch(nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: int
+    """
+    if len(nums) == 0:
+        return -1
+
+    left, right = 0, len(nums) - 1
+    while left < right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+
+    # Post-processing:
+    # End Condition: left == right
+    if nums[left] == target:
+        return left
+    return -1 
+
+
+
+This binary search variant is indeed slightly different from the conventional approach, where the loop condition is usually while left <= right and right is updated to mid - 1. In this approach, we use while left < right and update right to mid, making it particularly useful in scenarios where you’re searching for specific boundary conditions or first occurrence patterns rather than simply locating an element.
+
+Scenarios to Use This Variant
+Finding the Leftmost or Rightmost Index of a Target in a Sorted Array:
+
+In a sorted array with duplicate values, you might want to locate the first or last occurrence of a target value. By avoiding the right = mid - 1 step, this approach helps narrow down to a boundary.
+This is helpful when combined with a slight modification, such as repeating the loop with left < right - 1 to narrow further or performing post-processing to identify if it’s the leftmost or rightmost position.
+Handling Infinite or Open-Ended Arrays:
+
+For arrays with an infinite or unknown length, this method can be adapted to prevent going out of bounds, as it stops iterating when the range left == right.
+For example, a search on a streaming data source or an implicit array where boundaries are not clearly defined benefits from this approach.
+Optimization for Partitioned Data (e.g., Monotonic Segments):
+
+If you have an array that consists of a "pivot" where elements transition from being less than the target to greater than the target, this method can help efficiently isolate that boundary.
+For instance, finding the minimum element in a rotated sorted array often involves a similar left < right pattern.
+Binary Search for Nonexistent Elements (Exact Match vs. Closest):
+
+Sometimes you want to locate the "closest" position where an element could be, even if the exact target doesn’t exist. This approach leaves the left pointer at the insertion point, which is ideal for finding where an element would go in the list if inserted.
+Example: Finding Minimum in a Rotated Sorted Array
+Consider a rotated sorted array where elements are ordered but "rotated" around a pivot (e.g., [4, 5, 6, 7, 0, 1, 2]). This approach works well for isolating the smallest element (the rotation point) because it stops at the exact boundary where elements switch from high to low.
+
+Summary
+This variant of binary search is particularly suited for:
+
+Locating exact boundaries in partitioned arrays
+Handling unknown or infinite-length sequences
+Finding closest possible positions for insertion
+Narrowing down rotated sorted arrays or boundaries with specific constraints
+
+
+
+
+
